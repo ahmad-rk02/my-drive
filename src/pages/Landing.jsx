@@ -218,7 +218,7 @@ export default function Landing() {
             )}
 
             <footer className="py-8 text-center text-gray-500 text-sm">
-                © {new Date().getFullYear()} My Drive
+                © {new Date().getFullYear()} AK Drive
             </footer>
         </div>
     );
