@@ -6,7 +6,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { supabase } from '../supabase';
 import DarkModeToggle from './DarkModeToggle';
-import logo from '../assets/ayarn.jpg';
+import logo from '../assets/Ayarn.jpg';
 
 const Header = ({ onSearch }) => {
     const [query, setQuery] = useState('');
