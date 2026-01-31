@@ -81,7 +81,7 @@ export default function Landing() {
 
             {/* HERO */}
             <header className="max-w-7xl mx-auto px-6 py-28 text-center">
-                <h1 className="text-6xl font-extrabold">My Drive</h1>
+                <h1 className="text-6xl font-extrabold">AK Drive</h1>
                 <p className="mt-6 text-xl text-gray-600">
                     Secure cloud storage — upload, organize, and access anywhere.
                 </p>
