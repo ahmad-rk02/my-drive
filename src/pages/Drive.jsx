@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import FileItem from '../components/FileItem';
@@ -14,13 +15,19 @@ export default function Drive() {
     const [items, setItems] = useState([]);
     const [currentFolderId, setCurrentFolderId] = useState(null);
     const [loading, setLoading] = useState(true);
+
     const [showUpload, setShowUpload] = useState(false);
     const [showCreateFolderWithFiles, setShowCreateFolderWithFiles] = useState(false);
     const [renameItem, setRenameItem] = useState(null);
+
     const [viewMode, setViewMode] = useState('grid');
+
+    // 🔑 NEW: sidebar state
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const navigate = useNavigate();
 
+    /* LOAD FILES */
     useEffect(() => {
         loadItems();
     }, [currentFolderId]);
@@ -33,9 +40,7 @@ export default function Drive() {
                 url += `?folderId=${currentFolderId}`;
             }
             const res = await api.get(url);
-            const receivedItems = res.data.data || [];
-            console.log(`Loaded ${receivedItems.length} items in folder ${currentFolderId || 'root'}`);
-            setItems(receivedItems);
+            setItems(res.data.data || []);
         } catch (err) {
             console.error('Error loading items:', err);
         } finally {
@@ -43,6 +48,7 @@ export default function Drive() {
         }
     };
 
+    /* ACTIONS */
     const handleItemClick = (item) => {
         if (item.type === 'folder') {
             setCurrentFolderId(item.id);
@@ -120,45 +126,55 @@ export default function Drive() {
 
     return (
         <div className="flex h-screen bg-gray-50 dark:bg-gray-950 overflow-hidden">
-            <Sidebar />
 
+            {/* SIDEBAR */}
+            <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+
+            {/* MAIN COLUMN */}
             <div className="flex-1 flex flex-col min-h-0">
-                <Header onSearch={handleSearch} />
 
+                {/* HEADER */}
+                <Header
+                    onSearch={handleSearch}
+                    onToggleSidebar={() => setSidebarOpen(true)}
+                />
+
+                {/* CONTENT */}
                 <main className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 sm:px-5 sm:py-6">
-                    {/* Header with title + back button + actions */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-5">
+
+                    {/* PAGE HEADER */}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
                         <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white truncate">
                             {currentFolderId ? 'Folder' : 'My Drive'}
                         </h1>
 
-                        <div className="flex flex-wrap gap-2 sm:gap-3">
+                        <div className="flex flex-wrap gap-2">
                             {currentFolderId && (
                                 <button
                                     onClick={handleBack}
                                     className="
-                    px-4 py-2 text-sm sm:text-base font-medium
-                    rounded-lg
-                    bg-gray-200 dark:bg-gray-700
-                    hover:bg-gray-300 dark:hover:bg-gray-600
-                    text-gray-800 dark:text-gray-200
-                    transition-colors
-                    min-h-[44px] flex items-center justify-center
-                  "
+                                        px-4 py-2 text-sm font-medium
+                                        rounded-lg
+                                        bg-gray-200 dark:bg-gray-700
+                                        hover:bg-gray-300 dark:hover:bg-gray-600
+                                        text-gray-800 dark:text-gray-200
+                                        transition
+                                        min-h-[44px]
+                                    "
                                 >
-                                    ← Back to My Drive
+                                    ← Back
                                 </button>
                             )}
 
                             <button
                                 onClick={() => setShowUpload(true)}
                                 className="
-                  px-4 py-2 text-sm sm:text-base font-medium
-                  rounded-lg bg-blue-600 text-white
-                  hover:bg-blue-700
-                  transition shadow-sm
-                  min-h-[44px]
-                "
+                                    px-4 py-2 text-sm font-medium
+                                    rounded-lg bg-blue-600 text-white
+                                    hover:bg-blue-700
+                                    transition
+                                    min-h-[44px]
+                                "
                             >
                                 Upload
                             </button>
@@ -166,57 +182,57 @@ export default function Drive() {
                             <button
                                 onClick={() => setShowCreateFolderWithFiles(true)}
                                 className="
-                  px-4 py-2 text-sm sm:text-base font-medium
-                  rounded-lg bg-indigo-600 text-white
-                  hover:bg-indigo-700
-                  transition shadow-sm
-                  min-h-[44px]
-                "
+                                    px-4 py-2 text-sm font-medium
+                                    rounded-lg bg-indigo-600 text-white
+                                    hover:bg-indigo-700
+                                    transition
+                                    min-h-[44px]
+                                "
                             >
                                 New folder with files…
                             </button>
 
+                            {/* VIEW TOGGLE */}
                             <button
-                                onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+                                onClick={() =>
+                                    setViewMode(viewMode === 'grid' ? 'list' : 'grid')
+                                }
                                 className="
-                  px-3 py-2 text-sm
-                  rounded-lg
-                  border border-gray-300 dark:border-gray-600
-                  bg-white dark:bg-gray-800
-                  hover:bg-gray-100 dark:hover:bg-gray-700
-                  transition
-                  min-h-[44px]
-                "
+                                    px-4 py-2 text-sm font-medium
+                                    rounded-lg flex items-center gap-2
+                                    border border-gray-300 dark:border-gray-700
+                                    bg-white dark:bg-gray-900
+                                    text-gray-800 dark:text-gray-200
+                                    hover:bg-gray-100 dark:hover:bg-gray-800
+                                    transition
+                                    min-h-[44px]
+                                "
                             >
-                                {viewMode === 'grid' ? 'List' : 'Grid'}
+                                {viewMode === 'grid' ? '📄 List' : '🔲 Grid'}
                             </button>
                         </div>
                     </div>
 
-                    {/* Content Area */}
+                    {/* FILES */}
                     <DropZone onDrop={handleDrop}>
                         {loading ? (
                             <div className="flex justify-center items-center min-h-[50vh]">
-                                <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-2 border-b-2 border-blue-500"></div>
+                                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-500" />
                             </div>
                         ) : items.length === 0 ? (
-                            <div className="text-center py-16 sm:py-24 text-gray-500 dark:text-gray-400 text-sm sm:text-base">
-                                <p className="font-medium mb-2">
-                                    This folder is empty
-                                </p>
-                                <p>
-                                    Upload files or create a folder
-                                </p>
+                            <div className="text-center py-20 text-gray-500 dark:text-gray-400">
+                                <p className="font-medium mb-1">This folder is empty</p>
+                                <p>Upload files or create a folder</p>
                             </div>
                         ) : (
                             <div
                                 className={
                                     viewMode === 'grid'
                                         ? 'grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'
-                                        : 'space-y-2.5 sm:space-y-2'
+                                        : 'space-y-2'
                                 }
                             >
-                                {items.map((item) => (
+                                {items.map(item => (
                                     <FileItem
                                         key={item.id}
                                         item={item}
@@ -232,9 +248,14 @@ export default function Drive() {
                         )}
                     </DropZone>
                 </main>
+
+                {/* FOOTER */}
+                <footer className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-center text-sm text-gray-500 dark:text-gray-400 py-3">
+                    © {new Date().getFullYear()} <span className="font-medium">Ak Drive</span>
+                </footer>
             </div>
 
-            {/* Modals */}
+            {/* MODALS */}
             {showUpload && (
                 <UploadModal
                     onClose={() => setShowUpload(false)}

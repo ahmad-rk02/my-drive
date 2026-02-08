@@ -132,7 +132,12 @@ export default function Trash() {
                         </div>
                     )}
                 </main>
+                {/* Footer */}
+                <footer className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-center text-sm text-gray-500 dark:text-gray-400 py-3">
+                    © {new Date().getFullYear()} <span className="font-medium text-gray-700 dark:text-gray-300">Ak Drive</span>. All rights reserved.
+                </footer>
             </div>
+            
         </div>
     );
 }

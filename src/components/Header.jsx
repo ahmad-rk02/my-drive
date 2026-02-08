@@ -14,7 +14,7 @@ const Header = ({ onSearch }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
 
-    const [updateType, setUpdateType] = useState('email'); // email | password
+    const [updateType, setUpdateType] = useState('email');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -74,9 +74,10 @@ const Header = ({ onSearch }) => {
     return (
         <>
             {/* ================= HEADER ================= */}
-            <header className="bg-white dark:bg-darkBg shadow-md p-3 md:p-4 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0">
+            <header className="bg-white dark:bg-gray-900 shadow-md px-4 py-3 flex items-center justify-between gap-4">
+
                 {/* LEFT */}
-                <div className="flex items-center w-full md:w-auto gap-3">
+                <div className="flex items-center gap-3">
                     <img
                         src={logo}
                         alt="Drive Logo"
@@ -84,12 +85,17 @@ const Header = ({ onSearch }) => {
                         onClick={() => window.location.href = '/drive'}
                     />
 
-                    <div className="relative flex-1 w-full md:w-auto">
+                    <div className="relative hidden sm:block">
                         <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <input
                             type="text"
                             placeholder="Search in Drive"
-                            className="pl-10 pr-4 py-2 rounded-full bg-secondary dark:bg-darkCard w-full md:w-80 outline-none text-sm md:text-base"
+                            className="
+                              pl-10 pr-4 py-2 rounded-full
+                              bg-gray-100 dark:bg-gray-800
+                              text-gray-900 dark:text-gray-100
+                              outline-none w-72
+                            "
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             onKeyDown={handleSearch}
@@ -98,23 +104,39 @@ const Header = ({ onSearch }) => {
                 </div>
 
                 {/* RIGHT */}
-                <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto justify-between md:justify-end">
+                <div className="flex items-center gap-3">
+                    {/* Theme toggle */}
                     <DarkModeToggle />
 
-                    {/* PROFILE */}
+                    {/* Profile */}
                     <div className="relative">
                         <button
                             onClick={() => setMenuOpen(!menuOpen)}
-                            className="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-sm md:text-base"
+                            className="
+                              h-9 w-9 rounded-full
+                              bg-blue-600 text-white
+                              flex items-center justify-center
+                              font-semibold
+                              hover:ring-2 hover:ring-blue-400
+                            "
                         >
                             {firstLetter}
                         </button>
 
                         {menuOpen && (
-                            <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-darkCard rounded-lg shadow border dark:border-gray-700 z-50">
+                            <div className="
+                              absolute right-0 mt-2 w-56
+                              bg-white dark:bg-gray-800
+                              border border-gray-200 dark:border-gray-700
+                              rounded-lg shadow-lg z-50
+                            ">
                                 <div className="px-4 py-3 border-b dark:border-gray-700">
-                                    <p className="text-sm font-medium truncate">{user?.email}</p>
-                                    <p className="text-xs text-gray-500">Signed in</p>
+                                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+                                        {user?.email}
+                                    </p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                                        Signed in
+                                    </p>
                                 </div>
 
                                 <button
@@ -123,7 +145,12 @@ const Header = ({ onSearch }) => {
                                         setMenuOpen(false);
                                         setMessage('');
                                     }}
-                                    className="w-full flex items-center gap-2 px-4 py-3 text-sm hover:bg-secondary dark:hover:bg-darkBg"
+                                    className="
+                                      w-full flex items-center gap-2
+                                      px-4 py-2 text-sm
+                                      text-gray-700 dark:text-gray-200
+                                      hover:bg-gray-100 dark:hover:bg-gray-700
+                                    "
                                 >
                                     <PencilSquareIcon className="h-5 w-5" />
                                     Update profile
@@ -131,7 +158,12 @@ const Header = ({ onSearch }) => {
 
                                 <button
                                     onClick={handleLogout}
-                                    className="w-full flex items-center gap-2 px-4 py-3 text-sm hover:bg-secondary dark:hover:bg-darkBg"
+                                    className="
+                                      w-full flex items-center gap-2
+                                      px-4 py-2 text-sm
+                                      text-gray-700 dark:text-gray-200
+                                      hover:bg-gray-100 dark:hover:bg-gray-700
+                                    "
                                 >
                                     <ArrowRightOnRectangleIcon className="h-5 w-5" />
                                     Logout
@@ -145,84 +177,75 @@ const Header = ({ onSearch }) => {
             {/* ================= UPDATE PROFILE MODAL ================= */}
             {profileOpen && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
-                    <div className="bg-white dark:bg-darkBg p-6 rounded-lg w-full max-w-sm">
-                        <h2 className="text-lg font-semibold mb-4 text-center">Update Profile</h2>
+                    <div className="bg-white dark:bg-gray-900 p-6 rounded-lg w-full max-w-sm">
+                        <h2 className="text-lg font-semibold mb-4 text-center text-gray-900 dark:text-white">
+                            Update Profile
+                        </h2>
 
                         {message && (
-                            <p className="text-sm mb-3 text-center text-primary truncate">
+                            <p className="text-sm mb-3 text-center text-blue-600">
                                 {message}
                             </p>
                         )}
 
-                        {/* CHOICE */}
-                        <div className="flex flex-col sm:flex-row gap-3 mb-4 justify-center">
-                            <label className="flex items-center gap-2 text-sm cursor-pointer">
+                        <div className="flex gap-4 justify-center mb-4 text-sm text-gray-700 dark:text-gray-200">
+                            <label className="flex items-center gap-2">
                                 <input
                                     type="radio"
-                                    name="updateType"
-                                    value="email"
                                     checked={updateType === 'email'}
                                     onChange={() => setUpdateType('email')}
                                 />
-                                Update Email
+                                Email
                             </label>
 
-                            <label className="flex items-center gap-2 text-sm cursor-pointer">
+                            <label className="flex items-center gap-2">
                                 <input
                                     type="radio"
-                                    name="updateType"
-                                    value="password"
                                     checked={updateType === 'password'}
                                     onChange={() => setUpdateType('password')}
                                 />
-                                Update Password
+                                Password
                             </label>
                         </div>
 
-                        {/* EMAIL */}
                         {updateType === 'email' && (
-                            <>
-                                <label className="text-sm">New Email</label>
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full border p-2 rounded mb-2 dark:bg-darkCard"
-                                />
-                                <p className="text-xs text-gray-500 mb-3 text-center">
-                                    Verification email will be sent
-                                </p>
-                            </>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="
+                                  w-full p-2 rounded border
+                                  bg-gray-100 dark:bg-gray-800
+                                  text-gray-900 dark:text-gray-100
+                                "
+                            />
                         )}
 
-                        {/* PASSWORD */}
                         {updateType === 'password' && (
-                            <>
-                                <label className="text-sm">New Password</label>
-                                <input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full border p-2 rounded mb-3 dark:bg-darkCard"
-                                />
-                            </>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="
+                                  w-full p-2 rounded border
+                                  bg-gray-100 dark:bg-gray-800
+                                  text-gray-900 dark:text-gray-100
+                                "
+                            />
                         )}
 
-                        <div className="flex flex-col sm:flex-row justify-end gap-3 mt-4">
+                        <div className="flex justify-end gap-3 mt-5">
                             <button
-                                onClick={() => {
-                                    setProfileOpen(false);
-                                    setMessage('');
-                                }}
-                                className="px-4 py-2 border rounded w-full sm:w-auto"
+                                onClick={() => setProfileOpen(false)}
+                                className="px-4 py-2 border rounded text-gray-700 dark:text-gray-200"
                             >
                                 Cancel
                             </button>
 
                             <button
-                                disabled={loading}
                                 onClick={handleUpdateProfile}
-                                className="px-4 py-2 bg-primary text-white rounded w-full sm:w-auto"
+                                disabled={loading}
+                                className="px-4 py-2 bg-blue-600 text-white rounded"
                             >
                                 {loading ? 'Saving...' : 'Save'}
                             </button>
