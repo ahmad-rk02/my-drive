@@ -259,44 +259,44 @@ export default function Landing() {
                                 icon: CloudArrowUpIcon,
                                 title: 'Easy File Upload',
                                 desc: 'Drag and drop files or folders. Upload multiple files at once with our intuitive interface.',
-                                color: 'blue'
+                                gradient: 'from-blue-500 to-blue-600'
                             },
                             {
                                 icon: LockClosedIcon,
                                 title: 'Bank-Level Security',
                                 desc: 'Your files are encrypted with 256-bit AES encryption. Your data is always private and secure.',
-                                color: 'indigo'
+                                gradient: 'from-indigo-500 to-indigo-600'
                             },
                             {
                                 icon: DevicePhoneMobileIcon,
                                 title: 'Access Anywhere',
                                 desc: 'Access your files from any device - desktop, tablet, or mobile. Always in sync.',
-                                color: 'purple'
+                                gradient: 'from-purple-500 to-purple-600'
                             },
                             {
                                 icon: ArrowPathIcon,
                                 title: 'Automatic Backup',
                                 desc: 'Never lose your files. Automatic backup and version history keeps your data safe.',
-                                color: 'pink'
+                                gradient: 'from-pink-500 to-pink-600'
                             },
                             {
                                 icon: UsersIcon,
                                 title: 'Easy Sharing',
                                 desc: 'Share files and folders with anyone. Control who can view, edit, or download.',
-                                color: 'cyan'
+                                gradient: 'from-cyan-500 to-cyan-600'
                             },
                             {
                                 icon: ShieldCheckIcon,
                                 title: 'Compliance Ready',
                                 desc: 'GDPR compliant and SOC 2 certified. Enterprise-grade security for everyone.',
-                                color: 'green'
+                                gradient: 'from-green-500 to-green-600'
                             },
                         ].map((feature, i) => (
                             <div
                                 key={i}
                                 className="group p-8 rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-xl transition-all duration-300"
                             >
-                                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br from-${feature.color}-500 to-${feature.color}-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                                     <feature.icon className="h-7 w-7 text-white" />
                                 </div>
                                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{feature.title}</h3>
