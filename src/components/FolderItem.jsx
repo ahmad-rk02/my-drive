@@ -10,12 +10,12 @@ export default function FolderCard({ folder, onOpen, onTrash, onRename, starred 
             onDoubleClick={() => onOpen(folder)}
         >
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                <div className="flex flex-1 flex-wrap items-center gap-2">
-                    <FiFolder className="text-yellow-500" size={28} />
-                    <div className="mt-1 font-semibold text-sm sm:text-base truncate max-w-[150px] sm:max-w-xs">
+                <div className="flex flex-1 items-center gap-2 min-w-0 overflow-hidden">
+                    <FiFolder className="text-yellow-500 flex-shrink-0" size={28} />
+                    <div className="mt-1 font-semibold text-sm sm:text-base truncate flex-1 min-w-0" title={folder.name}>
                         {folder.name}
                     </div>
-                    {starred && <FiStar size={16} className="text-yellow-500" />}
+                    {starred && <FiStar size={16} className="text-yellow-500 flex-shrink-0" />}
                 </div>
 
                 <div className="relative">
