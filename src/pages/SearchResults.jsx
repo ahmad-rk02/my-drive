@@ -4,6 +4,7 @@ import api from '../services/api';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import FileItem from '../components/FileItem';
+import SimpleFooter from '../components/SimpleFooter';
 
 export default function SearchResults() {
     const [searchParams] = useSearchParams();
@@ -132,9 +133,7 @@ export default function SearchResults() {
                     )}
                 </main>
 
-                <footer className="border-t border-gray-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm text-center text-xs sm:text-sm text-gray-500 dark:text-gray-400 py-3 sm:py-4">
-                    © {new Date().getFullYear()} <span className="font-semibold text-gray-700 dark:text-gray-300">AK Drive</span>
-                </footer>
+                <SimpleFooter />
             </div>
         </div>
     );

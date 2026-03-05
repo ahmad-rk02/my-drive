@@ -12,6 +12,7 @@ import {
     DocumentTextIcon,
     UsersIcon,
 } from '@heroicons/react/24/outline';
+import Footer from '../components/Footer';
 
 export default function Landing() {
     const [authType, setAuthType] = useState(null); // login | signup | forgot
@@ -334,14 +335,7 @@ export default function Landing() {
             </section>
 
             {/* Footer */}
-            <footer className="bg-gray-50 dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 py-8">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-                        <p>© {new Date().getFullYear()} <span className="font-semibold text-gray-900 dark:text-white">AK Drive</span>. All rights reserved.</p>
-                        <p className="mt-2">Secure • Reliable • Fast</p>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
 
             {/* AUTH MODAL */}
             {authType && (
